@@ -1,0 +1,117 @@
+syntax = "proto3";
+service RegisterSellerService{
+    rpc RegisterSellerMethod(SellerInfo) returns (ResponseInfo);
+}
+service SellItemService{
+    rpc SellItemMethod(SellItem) returns (ResponseInfoSellItem);
+}
+service UpdateItemService{
+    rpc UpdateItemMethod(updateItem) returns (ResponseInfo);
+}
+service DeleteItemService{
+    rpc DeleteItemMethod(deleteItem) returns (ResponseInfo);
+}
+service DisplaySellerItemsService{
+    rpc DisplaySellerItemsMethod(DisplaySellerItems) returns (stream ItemDetails);
+}
+service SearchItemService{
+    rpc SearchItemMethod(Searchitem) returns (stream ItemDetails);
+}
+service BuyitemService{
+    rpc BuyitemMethod(Buyitem) returns (ResponseInfo);
+}
+service AddtoWishlistService{
+    rpc AddtoWishlistMethod(AddtoWishlist) returns (ResponseInfo);
+}
+service RateitemService{
+    rpc RateitemMethod(Rateitem) returns (ResponseInfo);
+}
+service NotifyClientService{
+    rpc NotifyClient(ItemDetails) returns (ResponseInfo);
+}
+enum Category{
+    FASHION = 0;
+    ELECTRONICS = 1;
+    OTHER = 2;
+    ANY = 3;
+}
+message ClientInfo{
+    int32 itemid = 1;
+    string addr = 2;
+}
+message SellerInfo{
+    string addr = 1;
+    string uuid = 2;
+}
+message BuyerInfo{
+    string addr = 1;
+}
+message ResponseInfo{
+    enum Response{
+        Fail = 0;
+        Success = 1;
+    }
+    Response resp = 1;
+}
+message ResponseInfoSellItem{
+    string resp = 1;
+    int32 itemid = 2;
+}
+message SellItem{
+    string prodName = 1;
+    Category category = 7;
+    int32 quant = 2;
+    string description = 3;
+    string selladdr = 4;
+    int32 priceperunit = 5;
+    string uuid = 6;
+}
+message updateItem{
+    int32 prodId = 1;
+    int32 prodprice = 2;
+    int32 newquant = 3;
+    string selladdr = 4;
+    string uuid = 5;
+}
+message deleteItem{
+    int32 prodID = 1;
+    string selladdr = 2;
+    string uuid = 3;
+}
+message DisplaySellerItems{
+    string selladdr = 1;
+    string uuid = 2;
+}
+message ItemDetails{
+    int32 itemid = 1;
+    int32 prod_price = 2;
+    string prod_name = 3;
+    Category category = 4;
+    string description = 5;
+    int32 quant_rem = 6;
+    string selladdr = 7;
+    float rating = 8;
+    string res = 9;
+}
+message ItemResponse{
+    string res = 1;
+    repeated ItemDetails item = 2;
+}
+message Searchitem{
+    string prod_name = 1;
+    Category category = 4;
+}
+message Buyitem{
+    int32 itemid = 1;
+    int32 quant = 2;
+    string buy_addr = 3;
+}
+message AddtoWishlist{
+    int32 itemid = 1;
+    string buy_addr = 2;
+}
+message Rateitem{
+    int32 itemid = 1;
+    string buy_addr = 2;
+    float rating = 3;
+}
